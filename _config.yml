@@ -47,5 +47,5 @@ url: "" # the base hostname & protocol for your site
 github_url: https://github.com/rexemin/Topicos-IA-UNISON
 
 # The following settings are NECESSARY for the Prologue theme to run:
-theme: chrisbobbe/jekyll-theme-prologue
+remote_theme: chrisbobbe/jekyll-theme-prologue
 collections: [sections]
