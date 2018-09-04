@@ -17,4 +17,15 @@ tan directa.
 Como sea el caso: ya modifiqué las libretas. Las puse en un repositorio de GitHub para quien quiera
 verlas y aprender; o copiarlas, también tengo de esos compañeros.
 
-El repositorio se encuentra en esta [dirección](https://github.com/rexemin/Topicos-IA-UNISON/tree/master/Tutoriales-Julia-v1).
+El repositorio se encuentra en esta [dirección](https://github.com/rexemin/Topicos-IA-UNISON/tree/master/Tutoriales-Julia-v1). Por lo pronto solo son las primeras 12 libretas de introducción al lenguaje.
+
+Ahora, hay algunos detalles sobre los cambios de Julia:
+ + Hay que tener cuidado con el backend de Plotly, ya no es tan fácil como usar el mismo código para cualquier librería de graficación
+
+ + Muchas librerías ya no son cargadas por defecto. Las que encontré así son:
+   - Statistics
+   - Libdl
+   - Pkg
+ + Hay algunas que ni vienen instaladas desde el principio, como:
+   - PyCall
+   - Conda
