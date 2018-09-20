@@ -7,6 +7,8 @@ order: 2
 Los proyectos de este curso se centran en el uso de [Julia](https://julialang.org/) para programación dinámica, aprendizaje
 por refuerzo, y teoría estadística del aprendizaje.
 
+- El primer proyecto del curso es el uso de programación dinámica para encontrar una política para jugar 21.
+
 <!--
   <div class="row">
     <div class="4u 12u$(mobile)">

@@ -1,0 +1,120 @@
+<!DOCTYPE HTML>
+<!--
+Prologue by HTML5 UP
+html5up.net | @ajlkn
+Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+Jekyll integration by Chris Bobbe | chrisbobbe.github.io
+-->
+<html><head><!-- Robots -->
+  <meta name="robots" content="index, follow" /><link rel="canonical" href="http://localhost:4000/Topicos-IA-UNISON/2018/09/18/mdp-21.html" /><!-- Title, description, author --><title>Programación dinámica para jugar 21 - Parte I | Tópicos Avanzados de Inteligencia Artificial</title>
+  <meta name="description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  <meta name="author" content="Ivan Moreno" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Programación dinámica para jugar 21 - Parte I | Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://localhost:4000/Topicos-IA-UNISON/assets/images/avatar.jpg" />
+  <meta property="og:url" content="http://localhost:4000/Topicos-IA-UNISON/2018/09/18/mdp-21.html" />
+  <meta property="og:site_name" content="Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  
+  <!-- Styles -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/html5shiv.js" defer></script><![endif]-->
+  <link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie8.css" /><![endif]-->
+  <!--[if lte IE 9]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie9.css" /><![endif]-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrolly.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrollzer.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/skel.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/util.js" defer></script>
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/respond.min.js" defer></script><![endif]-->
+  <script src="/Topicos-IA-UNISON/assets/js/main.js" defer></script>
+
+</head><body><!-- Header -->
+<div id="header">
+  <div class="top"><!-- Logo -->
+<div id="logo">
+  <a href="http://localhost:4000/Topicos-IA-UNISON/" id="home-link">
+    <span class="image avatar48"><img src="/Topicos-IA-UNISON/assets/images/avatar.jpg" alt="Avatar of Ivan Moreno" /></span>
+    <h1 id="title">Tópicos Avanzados de Inteligencia Artificial</h1>
+    <p></p>
+  </a>
+</div><!-- Nav -->
+<nav id="nav">
+  <ul><li><a href="http://localhost:4000/Topicos-IA-UNISON/" id="inicio-link">
+            <span class="icon fa-home">Inicio</span>
+          </a></li><li><a href="http://localhost:4000/Topicos-IA-UNISON/blog.html" id="blog-del-curso-link">
+            <span class="icon fa-pencil-alt">Blog del curso</span>
+          </a></li></ul>
+</nav></div>
+  <div class="bottom"><!-- Social Icons -->
+<ul class="icons"><li><a href="https://github.com/rexemin/Topicos-IA-UNISON" class="icon-b fa-github"><span class="label">GitHub</span></a></li><li><a href="mailto:iamorenosoto@gmail.com" class="icon fa-envelope"><span class="label">Email</span></a></li></ul>
+</div>
+</div>
+<!-- Main -->
+<div id="main">
+	<!-- Post -->
+	<article class="shade-two">
+	  <div class="container">
+			<header>
+				<h2>Programación dinámica para jugar 21 - Parte I</h2>
+				<p>Ivan Moreno, 18 September 2018</p>
+			</header><p>Durante la última semana he estado trabajando en encontrar una política que permita jugar al 21. Aunque hasta ahora solo encontré resultados mixtos,
+cada vez que hago una modificación, el panorama mejora. Pero antes de seguir hablando de lo que falta por hacer, ¿porqué no hablar primero de la programación
+dinámica y de porqué estamos aprendiendo esto?</p>
+
+<h3 id="programas-que-buscan">Programas que buscan</h3>
+
+<p>Existen muchos problemas. Muchos de ellos implican buscar algo: una función, unas reglas, una ruta. Las búsquedas se realizan en entornos de características
+diversas. En este curso, nos interesa buscar en entornos parcial o totalmente observables, y estocásticos.</p>
+
+<p>El resultado de la búsqueda termina siendo una política: nos dice que acción deberíamos tomar en el estado en el que nos encontramos.</p>
+
+<h3 id="procesos-de-decisión-de-markov">Procesos de decisión de Markov</h3>
+
+<p>Para buscar una política para algún problema, primero debemos representarlo. Entonces entran los procesos de decisión de Markov, que son excelentes para
+entornos estocásticos. Solo ocupamos una condición: que el proceso no tenga memoria. Formalmente, un proceso de decisión de Markov es</p>
+
+<p>[ (S, A, \rho, r, S_f) ]</p>
+
+<p>Donde (S) es un conjunto enumerable de estados, (A) es un conjunto de posibles acciones, (\rho) es una función de probabilidad de pasar del estado (s) al estado (s’) a través de la acción (a), (r) es una función de recompensa al transicionar entre estados, y donde (S_f) es un subconjunto de estados que son terminales. También se usa un número (\gamma) entre 0 y 1 llamado factor de descuento que indica que tanto peso deben tener las recompensas futuras.</p>
+
+<h3 id="programación-dinámica">Programación dinámica</h3>
+
+<p>Ya tenemos un modelo de representación de nuestro problema, y ahora queremos encontrar una política. Entonces sigue usar a la programación dinámica. Los
+algoritmos de este campo de las matemáticas nos permiten buscar, en parte iterativa y en parte recursivamente, políticas que optimicen alguna clase
+de recompensa a través del uso de un proceso de decisión de Markov.</p>
+
+<p>Si quieres saber más sobre programación dinámica o sobre procesos de decisión de Markov, el material recopilado por el profesor Waissman <a href="https://topicos-ia-unison.github.io/curso-2018-2/2016/08/23/programacion-dinamica.html">aquí</a> es muy bueno.</p>
+
+<h3 id="encontrando-una-política-para-el-21">Encontrando una política para el 21</h3>
+
+<p>Después de todo ese preámbulo, es hora de hablar sobre como resolver el juego del 21 (o Blackjack.) La implementación de todo lo necesario para encontrar esta
+dichosa política se encuentra en <a href="https://nbviewer.jupyter.org/github/rexemin/Topicos-IA-UNISON/blob/master/21/21-ProgramacionDinamica.ipynb">esta libreta de Jupyter</a>. Todos los detalles sobre como funciona se lo dejo a la misma. El proyecto sigue siendo un trabajo
+en progreso al momento de escribir esta entrada. Dentro de poco deberían quedar mejores resultados.</p>
+
+<p>Si algún enlace esta roto, o hay algún error en la información, o tienes cualquier otro comentario, por favor mándame un mensaje por GitHub o a mi correo electrónico. Ambos
+enlaces están en la barra lateral.</p>
+</div>
+	</article>
+</div><!-- Footer -->
+<div id="footer">
+
+  <!-- Copyright -->
+  <ul class="copyright">
+    
+      <li>Mantenido por: Ivan Moreno</li>
+    
+    <li>Diseño: <a href="http://html5up.net">HTML5 UP</a></li>
+    <li>Integración con Jekyll: <a href="https://chrisbobbe.github.io/">Chris Bobbe</a></li>
+  </ul>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<p>Para empezar el curso se decidió aprender a usar la versión 1.0 de <a href="https://julialang.org/">Julia</a>,
+y que mejor forma de hacerlo que peléandonos con las libretas de Jupyter diseñadas para enseñarte
+cada parte del lenguaje.</p>
+
+<p>Llenar y ejecutar esas libretas debería ser trivial, pero estas se encuentran hechas para la versión
+0.6. Con todos los cambios que se le hicieron a Julia, la traducción entre versiones no esta
+tan directa.</p>
+
+<p><strong><em>¿Qué se le va a hacer ahora? Decidimos estar a la vanguardia.</em></strong></p>
+
+<p>Como sea el caso: ya modifiqué las libretas. Las puse en un repositorio de GitHub para quien quiera
+verlas y aprender; o copiarlas, también tengo de esos compañeros.</p>
+
+<p>El repositorio se encuentra en esta <a href="https://github.com/rexemin/Topicos-IA-UNISON/tree/master/Tutoriales-Julia-v1">dirección</a>. Por lo pronto solo son las primeras 12 libretas de introducción al lenguaje.</p>
+
+<p>Ahora, hay algunos detalles sobre los cambios de Julia:</p>
+<ul>
+  <li>
+    <p>Hay que tener cuidado con el backend de Plotly, ya no es tan fácil como usar el mismo código para cualquier librería de graficación</p>
+  </li>
+  <li>Muchas librerías ya no son cargadas por defecto. Las que encontré así son:
+    <ul>
+      <li>Statistics</li>
+      <li>Libdl</li>
+      <li>Pkg</li>
+    </ul>
+  </li>
+  <li>Hay algunas que ni vienen instaladas desde el principio, como:
+    <ul>
+      <li>PyCall</li>
+      <li>Conda</li>
+    </ul>
+  </li>
+</ul>
