@@ -63,6 +63,29 @@ Jekyll integration by Chris Bobbe | chrisbobbe.github.io
 	<article class="shade-two">
 	  <div class="container">
 			<header>
+        
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+    }
+    });
+    </script>
+    <script
+        type="text/javascript"
+        charset="utf-8"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        >
+        </script>
+        <script
+            type="text/javascript"
+            charset="utf-8"
+            src="https://vincenttam.github.io/javascripts/MathJaxLocal.js"
+            >
+            </script>
+
+
 				<h2>Programación dinámica para jugar 21 - Parte I</h2>
 				<p>Ivan Moreno, 18 September 2018</p>
 			</header><p>Durante la última semana he estado trabajando en encontrar una política que permita jugar al 21. Aunque hasta ahora solo encontré resultados mixtos,
@@ -81,9 +104,9 @@ diversas. En este curso, nos interesa buscar en entornos parcial o totalmente ob
 <p>Para buscar una política para algún problema, primero debemos representarlo. Entonces entran los procesos de decisión de Markov, que son excelentes para
 entornos estocásticos. Solo ocupamos una condición: que el proceso no tenga memoria. Formalmente, un proceso de decisión de Markov es</p>
 
-<p>[ (S, A, \rho, r, S_f) ]</p>
+<p>\[ (S, A, \rho, r, S_f) \]</p>
 
-<p>Donde (S) es un conjunto enumerable de estados, (A) es un conjunto de posibles acciones, (\rho) es una función de probabilidad de pasar del estado (s) al estado (s’) a través de la acción (a), (r) es una función de recompensa al transicionar entre estados, y donde (S_f) es un subconjunto de estados que son terminales. También se usa un número (\gamma) entre 0 y 1 llamado factor de descuento que indica que tanto peso deben tener las recompensas futuras.</p>
+<p>Donde \(S\) es un conjunto enumerable de estados, \(A\) es un conjunto de posibles acciones, \(\rho\) es una función de probabilidad de pasar del estado \(s\) al estado \(s’\) a través de la acción \(a\), \(r\) es una función de recompensa al transicionar entre estados, y donde \(S_f\) es un subconjunto de estados que son terminales. También se usa un número \(\gamma\) entre 0 y 1 llamado factor de descuento que indica que tanto peso deben tener las recompensas futuras.</p>
 
 <h3 id="programación-dinámica">Programación dinámica</h3>
 
@@ -103,7 +126,8 @@ en progreso al momento de escribir esta entrada. Dentro de poco deberían quedar
 enlaces están en la barra lateral.</p>
 </div>
 	</article>
-</div><!-- Footer -->
+</div>
+<!-- Footer -->
 <div id="footer">
 
   <!-- Copyright -->
