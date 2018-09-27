@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<!--
+Prologue by HTML5 UP
+html5up.net | @ajlkn
+Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+Jekyll integration by Chris Bobbe | chrisbobbe.github.io
+-->
+<html><head><!-- Robots -->
+  <meta name="robots" content="index, follow" /><link rel="canonical" href="http://localhost:4000/Topicos-IA-UNISON/2018/09/25/revision-mdp-21.html" /><!-- Title, description, author --><title>Programación dinámica para jugar 21 - Parte II | Tópicos Avanzados de Inteligencia Artificial</title>
+  <meta name="description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  <meta name="author" content="Ivan Moreno" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Programación dinámica para jugar 21 - Parte II | Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://localhost:4000/Topicos-IA-UNISON/assets/images/avatar.jpg" />
+  <meta property="og:url" content="http://localhost:4000/Topicos-IA-UNISON/2018/09/25/revision-mdp-21.html" />
+  <meta property="og:site_name" content="Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  
+  <!-- Styles -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/html5shiv.js" defer></script><![endif]-->
+  <link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie8.css" /><![endif]-->
+  <!--[if lte IE 9]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie9.css" /><![endif]-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrolly.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrollzer.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/skel.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/util.js" defer></script>
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/respond.min.js" defer></script><![endif]-->
+  <script src="/Topicos-IA-UNISON/assets/js/main.js" defer></script>
+
+</head><body><!-- Header -->
+<div id="header">
+  <div class="top"><!-- Logo -->
+<div id="logo">
+  <a href="http://localhost:4000/Topicos-IA-UNISON/" id="home-link">
+    <span class="image avatar48"><img src="/Topicos-IA-UNISON/assets/images/avatar.jpg" alt="Avatar of Ivan Moreno" /></span>
+    <h1 id="title">Tópicos Avanzados de Inteligencia Artificial</h1>
+    <p></p>
+  </a>
+</div><!-- Nav -->
+<nav id="nav">
+  <ul><li><a href="http://localhost:4000/Topicos-IA-UNISON/" id="inicio-link">
+            <span class="icon fa-home">Inicio</span>
+          </a></li><li><a href="http://localhost:4000/Topicos-IA-UNISON/blog.html" id="blog-del-curso-link">
+            <span class="icon fa-pencil-alt">Blog del curso</span>
+          </a></li></ul>
+</nav></div>
+  <div class="bottom"><!-- Social Icons -->
+<ul class="icons"><li><a href="https://github.com/rexemin/Topicos-IA-UNISON" class="icon-b fa-github"><span class="label">GitHub</span></a></li><li><a href="mailto:iamorenosoto@gmail.com" class="icon fa-envelope"><span class="label">Email</span></a></li></ul>
+</div>
+</div>
+<!-- Main -->
+<div id="main">
+	<!-- Post -->
+	<article class="shade-two">
+	  <div class="container">
+			<header>
+        
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+    }
+    });
+    </script>
+    <script
+        type="text/javascript"
+        charset="utf-8"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        >
+        </script>
+        <script
+            type="text/javascript"
+            charset="utf-8"
+            src="https://vincenttam.github.io/javascripts/MathJaxLocal.js"
+            >
+            </script>
+
+
+				<h2>Programación dinámica para jugar 21 - Parte II</h2>
+				<p>Ivan Moreno, 25 September 2018</p>
+			</header><p>En la clase de esta semana, que por cierto es de 3 horas seguidas, revisamos los avances del 21 de cada quien. Entre discusiones sobre las características buenas de Julia, decisiones dudosas
+de su diseño, lo que significa una política tonta, y más, muchas otras cosas quedaron más claras.</p>
+
+<h2 id="el-diseño-de-julia">El diseño de Julia</h2>
+
+<p>En vez de hablar primero sobre los temas que realmente competen a la clase, prefiero empezar con unas opiniones acerca del diseño de Julia. A fin de cuentas, aprender un lenguaje novedoso
+está escondido entre los objetivos principales del curso. Vaya que ha funcionado matar 2 pájaros de un tiro: al momento en que entiendes como funciona el lenguaje, también entiendes detalles
+sobre como funcionan los algoritmos.</p>
+
+<p>Como alguien que piensa que la ingeniería de software es fundamental, la documentación de Julia deja mucho que desear, y no es lenguaje. Julia tiene muchas herramientas nativas que facilitan
+la escritura de código y de su documentación respectiva, pero muchos desarrolladores no se toman el tiempo de usarlas. Sin embargo, casi todos los contribuidores son voluntarios, y muchos no
+tienen formación en computación. Espero que algún día se arregle.</p>
+
+<p>Resulta que en Julia puedes hacer clases. Con todo y constructores. Pero en ninguna parte te dicen que el lenguaje es orientado a objetos. Y a veces no funcionan como crees que deberían. Todo
+se debe a que puedes definir tipos abstractos y luego derivar un tipo concreto, ¿no suena parecida a cierta propiedad de lenguajes como C++ y Java? Pero su funcionamiento es extraño y todavía
+estamos entendiendo estas características de Julia. Decidí no meterme en eso por lo pronto y me quedé con mis estructuras sencillas. Lo bueno es que si te interesa explorar más sobre estos tipos
+abstractos, una compañera de clase esta implementando <a href="https://github.com/chasil7/MDP/blob/master/MDP_Black_Jack.ipynb">aquí</a> el proyecto utilizando todo lo que la sintaxis ofrece.</p>
+
+<h2 id="nuevos-algoritmos-de-programación-dinámica">Nuevos algoritmos de programación dinámica</h2>
+
+<p>Después de muchas palabras sobre Julia, ahora si, a lo que realmente es de la clase: programación dinámica. La semana pasada, la libreta de Jupyter (que se puede ver <a href="https://nbviewer.jupyter.org/github/rexemin/Topicos-IA-UNISON/blob/master/21/21-ProgramacionDinamica.ipynb">aquí</a>) solo tenía un algoritmo para encontrar políticas. ¡Ahora son 2! Aunque son 2 funciones nuevas, son parte del mismo
+algoritmo de búsqueda. De hecho, las adiciones recientes debieron haber sido implementadas primero, por ser más sencillas, pero que va, lo importante es que ahora tenemos a la familia
+completa.</p>
+
+<h2 id="retroalimentación-sobre-el-mdp">Retroalimentación sobre el MDP</h2>
+
+<p>Lo más relevante de la clase de esta semana fue la retroalimentación sobre mi planteamiento del proceso de decisión de Markov. Creí que sería más fácil si buscaba una política sin tomar
+en cuenta las cartas del repartidor, pero después de que el grupo revisara cuidadosamente mi trabajo, quedó claro que es necesario modelar el problema completa desde el principio. Hay
+dos razones para esto:</p>
+
+<ol>
+  <li>La política que es encontrada con el modelo simplificado resulta ser bastante tonta pero correcta. Como no hay incentivo por arriesgarse a conseguir un 21, casi siempre hace nada.</li>
+  <li>Si implemento todas las demás observaciones, será más difícil calcular una recompensa para estados finales si solo existe el jugador en el proceso.</li>
+</ol>
+
+<p>Además, hay varias reglas del juego que implementé mal, así que esas también las tengo que arreglar para la siguiente sesión. Definitivamente siguen siendo resultados mixtos, pero todavía van
+mejorando con cada iteración.</p>
+</div>
+	</article>
+</div>
+<!-- Footer -->
+<div id="footer">
+
+  <!-- Copyright -->
+  <ul class="copyright">
+    
+      <li>Mantenido por: Ivan Moreno</li>
+    
+    <li>Diseño: <a href="http://html5up.net">HTML5 UP</a></li>
+    <li>Integración con Jekyll: <a href="https://chrisbobbe.github.io/">Chris Bobbe</a></li>
+  </ul>
+
+</div>
+</body>
+</html>
