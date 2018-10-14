@@ -1,0 +1,151 @@
+<!DOCTYPE HTML>
+<!--
+Prologue by HTML5 UP
+html5up.net | @ajlkn
+Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+Jekyll integration by Chris Bobbe | chrisbobbe.github.io
+-->
+<html><head><!-- Robots -->
+  <meta name="robots" content="index, follow" /><link rel="canonical" href="http://localhost:4000/Topicos-IA-UNISON/2018/10/12/final-mdp-21.html" /><!-- Title, description, author --><title>Programación dinámica para jugar 21 - Parte III | Tópicos Avanzados de Inteligencia Artificial</title>
+  <meta name="description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  <meta name="author" content="Ivan Moreno" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Programación dinámica para jugar 21 - Parte III | Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://localhost:4000/Topicos-IA-UNISON/assets/images/avatar.jpg" />
+  <meta property="og:url" content="http://localhost:4000/Topicos-IA-UNISON/2018/10/12/final-mdp-21.html" />
+  <meta property="og:site_name" content="Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  
+  <!-- Styles -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/html5shiv.js" defer></script><![endif]-->
+  <link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie8.css" /><![endif]-->
+  <!--[if lte IE 9]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie9.css" /><![endif]-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrolly.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrollzer.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/skel.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/util.js" defer></script>
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/respond.min.js" defer></script><![endif]-->
+  <script src="/Topicos-IA-UNISON/assets/js/main.js" defer></script>
+
+</head><body><!-- Header -->
+<div id="header">
+  <div class="top"><!-- Logo -->
+<div id="logo">
+  <a href="http://localhost:4000/Topicos-IA-UNISON/" id="home-link">
+    <span class="image avatar48"><img src="/Topicos-IA-UNISON/assets/images/avatar.jpg" alt="Avatar of Ivan Moreno" /></span>
+    <h1 id="title">Tópicos Avanzados de Inteligencia Artificial</h1>
+    <p></p>
+  </a>
+</div><!-- Nav -->
+<nav id="nav">
+  <ul><li><a href="http://localhost:4000/Topicos-IA-UNISON/" id="inicio-link">
+            <span class="icon fa-home">Inicio</span>
+          </a></li><li><a href="http://localhost:4000/Topicos-IA-UNISON/blog.html" id="blog-del-curso-link">
+            <span class="icon fa-pencil-alt">Blog del curso</span>
+          </a></li></ul>
+</nav></div>
+  <div class="bottom"><!-- Social Icons -->
+<ul class="icons"><li><a href="https://github.com/rexemin/Topicos-IA-UNISON" class="icon-b fa-github"><span class="label">GitHub</span></a></li><li><a href="mailto:iamorenosoto@gmail.com" class="icon fa-envelope"><span class="label">Email</span></a></li></ul>
+</div>
+</div>
+<!-- Main -->
+<div id="main">
+	<!-- Post -->
+	<article class="shade-two">
+	  <div class="container">
+			<header>
+        
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+    }
+    });
+    </script>
+    <script
+        type="text/javascript"
+        charset="utf-8"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        >
+        </script>
+        <script
+            type="text/javascript"
+            charset="utf-8"
+            src="https://vincenttam.github.io/javascripts/MathJaxLocal.js"
+            >
+            </script>
+
+
+				<h2>Programación dinámica para jugar 21 - Parte III</h2>
+				<p>Ivan Moreno, 12 October 2018</p>
+			</header><p>Terminamos la unidad sobre Programación Dinámica del curso y solo falta
+reportar los últimos cambios y las conclusiones del trabajo hecho.</p>
+
+<h2 id="dos-versiones-del-21">Dos versiones del 21</h2>
+
+<p>Debido a los problemas para modelar el juego, terminé haciendo dos versiones
+del 21: una con repartidor y otra sin él. Si revisas la versión simplificada que no toma en cuenta al repartidor, todos los algoritmos
+vistos en clase funcionan, aunque con resultados mixtos. Si después
+ves la otra versión, notarás que <code class="highlighter-rouge">policy_iteration</code> y <code class="highlighter-rouge">value_iteration</code>
+no se usan debido a que los valores de los estados divergen.</p>
+
+<p>Después de bastante depuración ingenua (porque Julia no tiene depurador
+por lo pronto,) concluí que el problema está en el modelo de decisión
+de Markov. Pero al tener al menos 1 mes trabajando continuamente en este
+proyecto, siento que ya no tengo la capacidad de ver qué parte es la
+que ocupo corregir. Esta es la parte en donde ocupo una segunda (y una
+tercera) opinión. Sin embargo, también es momento de calificar el
+trabajo de todos, por lo que de todos modos ocupo dar por finalizado el
+proyecto.</p>
+
+<p>Si revisas mis libretas y encuentras algo que pueda hacer mejor, desde
+la implementación de los algoritmos hasta el MDP, por favor avísame por
+correo electrónico o por GitHub. Realmente lo apreciaré.</p>
+
+<h2 id="ejercicios-de-la-unidad">Ejercicios de la unidad</h2>
+
+<p>Además del proyecto para esta unidad, también fue necesario resolver
+ejercicios del libro de Sutton y Barto de Aprendizaje por Refuerzo.
+Los ejercicios resueltos se pueden ver <a href="https://github.com/rexemin/Topicos-IA-UNISON">aquí</a></p>
+
+<h2 id="lo-que-aprendí-en-la-escuela-de-programación-dinámica-fue">Lo que aprendí en la escuela de Programación Dinámica fue…</h2>
+
+<p>Es difícil modelar de manera completa y correcta un proceso, incluso
+si no es complejo. La programación dinámica tiene algoritmos sencillos
+y elegantes que desafortunadamente pasan la dificultad a otras
+partes del proceso para resolver el problema.</p>
+
+<p>Los procesos de decisión de Markov son buenos para simplificar un modelo
+estocástico, a cambio de pedir que conozcamos completamente y a priori,
+como funciona lo que queremos modelar.</p>
+
+<p>Me muero por volver a atacar el 21, pero ahora con aprendizaje por refuerzo, después de programar este proyecto. Por lo pronto suena más
+sencillo.</p>
+</div>
+	</article>
+</div>
+<!-- Footer -->
+<div id="footer">
+
+  <!-- Copyright -->
+  <ul class="copyright">
+    
+      <li>Mantenido por: Ivan Moreno</li>
+    
+    <li>Diseño: <a href="http://html5up.net">HTML5 UP</a></li>
+    <li>Integración con Jekyll: <a href="https://chrisbobbe.github.io/">Chris Bobbe</a></li>
+  </ul>
+
+</div>
+</body>
+</html>
