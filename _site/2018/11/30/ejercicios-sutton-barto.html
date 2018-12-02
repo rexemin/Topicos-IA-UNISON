@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<!--
+Prologue by HTML5 UP
+html5up.net | @ajlkn
+Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+Jekyll integration by Chris Bobbe | chrisbobbe.github.io
+-->
+<html><head><!-- Robots -->
+  <meta name="robots" content="index, follow" /><link rel="canonical" href="http://localhost:4000/Topicos-IA-UNISON/2018/11/30/ejercicios-sutton-barto.html" /><!-- Title, description, author --><title>Aprendizaje por refuerzo - Parte 1 | Tópicos Avanzados de Inteligencia Artificial</title>
+  <meta name="description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  <meta name="author" content="Ivan Moreno" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Aprendizaje por refuerzo - Parte 1 | Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://localhost:4000/Topicos-IA-UNISON/assets/images/avatar.jpg" />
+  <meta property="og:url" content="http://localhost:4000/Topicos-IA-UNISON/2018/11/30/ejercicios-sutton-barto.html" />
+  <meta property="og:site_name" content="Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  
+  <!-- Styles -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/html5shiv.js" defer></script><![endif]-->
+  <link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie8.css" /><![endif]-->
+  <!--[if lte IE 9]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie9.css" /><![endif]-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrolly.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrollzer.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/skel.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/util.js" defer></script>
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/respond.min.js" defer></script><![endif]-->
+  <script src="/Topicos-IA-UNISON/assets/js/main.js" defer></script>
+
+</head><body><!-- Header -->
+<div id="header">
+  <div class="top"><!-- Logo -->
+<div id="logo">
+  <a href="http://localhost:4000/Topicos-IA-UNISON/" id="home-link">
+    <span class="image avatar48"><img src="/Topicos-IA-UNISON/assets/images/avatar.jpg" alt="Avatar of Ivan Moreno" /></span>
+    <h1 id="title">Tópicos Avanzados de Inteligencia Artificial</h1>
+    <p></p>
+  </a>
+</div><!-- Nav -->
+<nav id="nav">
+  <ul><li><a href="http://localhost:4000/Topicos-IA-UNISON/" id="inicio-link">
+            <span class="icon fa-home">Inicio</span>
+          </a></li><li><a href="http://localhost:4000/Topicos-IA-UNISON/blog.html" id="blog-del-curso-link">
+            <span class="icon fa-pencil-alt">Blog del curso</span>
+          </a></li></ul>
+</nav></div>
+  <div class="bottom"><!-- Social Icons -->
+<ul class="icons"><li><a href="https://github.com/rexemin/Topicos-IA-UNISON" class="icon-b fa-github"><span class="label">GitHub</span></a></li><li><a href="mailto:iamorenosoto@gmail.com" class="icon fa-envelope"><span class="label">Email</span></a></li></ul>
+</div>
+</div>
+<!-- Main -->
+<div id="main">
+	<!-- Post -->
+	<article class="shade-two">
+	  <div class="container">
+			<header>
+        
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+    }
+    });
+    </script>
+    <script
+        type="text/javascript"
+        charset="utf-8"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        >
+        </script>
+        <script
+            type="text/javascript"
+            charset="utf-8"
+            src="https://vincenttam.github.io/javascripts/MathJaxLocal.js"
+            >
+            </script>
+
+
+				<h2>Aprendizaje por refuerzo - Parte 1</h2>
+				<p>Ivan Moreno, 30 November 2018</p>
+			</header><p>Después de aprender programación dinámica nos pasamos a revisar los conceptos fundamentales
+del aprendizaje por refuerzo. Para empezar, resolvimos tres problemas relativamente sencillos
+con los dos algoritmos más conocidos: SARSA y Q-learning.</p>
+
+<h2 id="políticas-con-aprendizaje-por-refuerzo">Políticas con aprendizaje por refuerzo</h2>
+<p>Para aproximar el valor de una política ahora usaremos una idea llamada <em>temporal-difference learning</em>. Implementar esta idea nos permite aprender a través
+de la experiencia que provoca una política $ \pi $ en cada paso de la simulación
+del entorno. Así, también nos ahorramos tener que conocer y programar un entorno
+en su totalidad, solo ocupamos crear una simulación que proporcione suficiente
+información al agente.</p>
+
+<p>Esto ocurre porque ahora aprendemos estimaciones en base a otras estimaciones. No
+esperamos a ver resultados correctos y completos para decidir como mejoramos
+nuestras acciones. Solo hay un detalle: <strong>¿Cómo sabemos que estamos aprendiendo lo que queremos?</strong>. Lo bueno es que está demostrado que métodos de este estilo
+convergen al valor real de la política.</p>
+
+<h2 id="sarsa">SARSA</h2>
+<p>El primer algoritmo para aproximar buenas políticas es el SARSA. Con este,
+desechamos la función estado-valor y mejor nos concentramos en aproximar una
+función acción-valor $ Q_\pi (S, A) $. Aproximamos la función cada vez que
+se itera un paso sobre el entorno si llegamos a un estado no final. Si el estado
+es final, el valor de la función es 0 ($ Q_\pi (S_f, A_{t+1}) = 0 $).</p>
+
+<p>Con esos detalles aclarados, les presento el algoritmo:
+\[ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \left( R_{t+1} + \gamma Q(S_{t+1}, A_{t+1}) - Q(S_t, A_t) \right) \]</p>
+
+<p>Donde $ R_{t+1} $ es la recompensa obtenida por la transición entre estados.
+$ \gamma $ es nuestro confiable factor de descuento, y $ \alpha $ es nuestra
+taza de aprendizaje.</p>
+
+<p>Y así de fácil es aprender una política mientras vamos ejecutando episodios
+sucesivamente siguiendo una política casi al pie de la letra.</p>
+
+<h2 id="q-learning">Q-learning</h2>
+<p>Mejor todavía que un algoritmo sencillo y eficaz, es otro algoritmo igual de
+sencillo y más eficaz. SARSA es un algoritmo <em>on-policy</em> porque aprende la función
+acción-estado a partir de una política. Q-learning, por otra parte, aprende la
+misma función sin importar la política. A esto se le llama aprender <em>off-policy</em>.</p>
+
+<p>La expresión que representa este algoritmo es la siguiente:
+\[ Q(S_t, A_t) \leftarrow Q(S_t, A_t) + \alpha \left( R_{t+1} + \gamma \max_a Q(S_{t+1}, a) - Q(S_t, A_t) \right) \]</p>
+
+<p>Formalmente, este algoritmo te da muchas cosas además de la convergencia.
+Prácticamente, puede ser más rápido que SARSA.</p>
+
+<h2 id="ejercicios-del-libro-de-texto">Ejercicios del libro de texto</h2>
+
+<p>Para probar el funcionamiento de los dos algoritmos anteriores, decidimos resolver 3
+problemas sencillos:</p>
+
+<ul>
+  <li>Windy Grid World</li>
+  <li>Cliff Walking</li>
+  <li>Mountain Car</li>
+</ul>
+
+<p>Todos los problemas vienen descritos en el libro de texto sobre aprendizaje por
+refuerzo de Sutton y Barto. Para ahorrarnos un poco de tiempo, también nos dimos
+la libertad de traducir el <a href="https://github.com/ShangtongZhang/reinforcement-learning-an-introduction">código utilizado en el libro</a>
+(que está en Python) a Julia. Los 3 problemas están resueltos en <a href="https://nbviewer.jupyter.org/github/rexemin/Topicos-IA-UNISON/blob/master/AprendizajeRefuerzo/Ejercicios-SuttonBarto.ipynb">esta libreta de
+Jupyter</a>.</p>
+
+<p>Para explorar estados nuevos y evitar caer en una política estancada, todas las
+implementaciones deciden qué acciones tomar mediante políticas $ \epsilon $
+-greedy. Estas políticas toman la mejor acción en base a la función $ Q $ la
+mayor parte del tiempo, y el resto deciden aleatoriamente.</p>
+
+<p>Los métodos que estamos usando para aproximar políticas en este curso son un
+subconjunto pequeño de todos los que hay. Si quieres saber más sobre cualquiera
+deberías echarle un vistazo al libro de Sutton y Barto.</p>
+</div>
+	</article>
+</div>
+<!-- Footer -->
+<div id="footer">
+
+  <!-- Copyright -->
+  <ul class="copyright">
+    
+      <li>Mantenido por: Ivan Moreno</li>
+    
+    <li>Diseño: <a href="http://html5up.net">HTML5 UP</a></li>
+    <li>Integración con Jekyll: <a href="https://chrisbobbe.github.io/">Chris Bobbe</a></li>
+  </ul>
+
+</div>
+</body>
+</html>
