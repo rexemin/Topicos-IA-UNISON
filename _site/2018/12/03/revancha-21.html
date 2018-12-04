@@ -1,0 +1,178 @@
+<!DOCTYPE HTML>
+<!--
+Prologue by HTML5 UP
+html5up.net | @ajlkn
+Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+Jekyll integration by Chris Bobbe | chrisbobbe.github.io
+-->
+<html><head><!-- Robots -->
+  <meta name="robots" content="index, follow" /><link rel="canonical" href="http://localhost:4000/Topicos-IA-UNISON/2018/12/03/revancha-21.html" /><!-- Title, description, author --><title>Aprendizaje por refuerzo - Parte 2 - La revancha del 21 | Tópicos Avanzados de Inteligencia Artificial</title>
+  <meta name="description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  <meta name="author" content="Ivan Moreno" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Aprendizaje por refuerzo - Parte 2 - La revancha del 21 | Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://localhost:4000/Topicos-IA-UNISON/assets/images/avatar.jpg" />
+  <meta property="og:url" content="http://localhost:4000/Topicos-IA-UNISON/2018/12/03/revancha-21.html" />
+  <meta property="og:site_name" content="Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  
+  <!-- Styles -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/html5shiv.js" defer></script><![endif]-->
+  <link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie8.css" /><![endif]-->
+  <!--[if lte IE 9]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie9.css" /><![endif]-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrolly.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrollzer.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/skel.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/util.js" defer></script>
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/respond.min.js" defer></script><![endif]-->
+  <script src="/Topicos-IA-UNISON/assets/js/main.js" defer></script>
+
+</head><body><!-- Header -->
+<div id="header">
+  <div class="top"><!-- Logo -->
+<div id="logo">
+  <a href="http://localhost:4000/Topicos-IA-UNISON/" id="home-link">
+    <span class="image avatar48"><img src="/Topicos-IA-UNISON/assets/images/avatar.jpg" alt="Avatar of Ivan Moreno" /></span>
+    <h1 id="title">Tópicos Avanzados de Inteligencia Artificial</h1>
+    <p></p>
+  </a>
+</div><!-- Nav -->
+<nav id="nav">
+  <ul><li><a href="http://localhost:4000/Topicos-IA-UNISON/" id="inicio-link">
+            <span class="icon fa-home">Inicio</span>
+          </a></li><li><a href="http://localhost:4000/Topicos-IA-UNISON/blog.html" id="blog-del-curso-link">
+            <span class="icon fa-pencil-alt">Blog del curso</span>
+          </a></li></ul>
+</nav></div>
+  <div class="bottom"><!-- Social Icons -->
+<ul class="icons"><li><a href="https://github.com/rexemin/Topicos-IA-UNISON" class="icon-b fa-github"><span class="label">GitHub</span></a></li><li><a href="mailto:iamorenosoto@gmail.com" class="icon fa-envelope"><span class="label">Email</span></a></li></ul>
+</div>
+</div>
+<!-- Main -->
+<div id="main">
+	<!-- Post -->
+	<article class="shade-two">
+	  <div class="container">
+			<header>
+        
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+    }
+    });
+    </script>
+    <script
+        type="text/javascript"
+        charset="utf-8"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        >
+        </script>
+        <script
+            type="text/javascript"
+            charset="utf-8"
+            src="https://vincenttam.github.io/javascripts/MathJaxLocal.js"
+            >
+            </script>
+
+
+				<h2>Aprendizaje por refuerzo - Parte 2 - La revancha del 21</h2>
+				<p>Ivan Moreno, 03 December 2018</p>
+			</header><p>Reintenté el 21. Con el SARSA. Ahora si quedó bonito. Fue mucho más fácil esta vez.
+Entra a esta publicación para saber como.</p>
+
+<p>Hace unas semanas (o meses) andaba aprendiendo programación dinámica. Durante ese
+periodo de la clase intenté encontrar una política buena para jugar al 21, pero con
+resultados mixtos. Después de la unidad de aprendizaje por refuerzo, sin embargo,
+si encontré una buena política. Todo gracias a la combinación de muchas cosas.</p>
+
+<h2 id="simular-muchos-juegos-para-aprender">Simular muchos juegos para aprender</h2>
+
+<p>Una de las primeras ventajas de usar aprendizaje por refuerzo es que ya no es
+necesario conocer todo el modelo de nuestro entorno, solo ocupamos saber lo
+mínimo necesario para poder simular a pasos. Entonces, podemos aprovechar una de
+las cosas más comunes de la inteligencia artificial: <em>fuerza bruta</em>. Así, podemos
+tener un modelo simplificado sobre el cual simulamos una y otra vez.</p>
+
+<p>En este caso, podemos modelar al 21 si codificamos las siguientes partes:</p>
+<ul>
+  <li>Estados no terminales y terminales</li>
+  <li>Acciones legales para cada estado</li>
+  <li>Transiciones hacia adelante de un estado a otro</li>
+  <li>Recompensa para cada estado</li>
+</ul>
+
+<p>Cuando tengamos eso cubierto, podemos poner a la computadora a jugar 21 durante
+horas.</p>
+
+<h2 id="modelo-simplificado-para-el-21">Modelo simplificado para el 21</h2>
+
+<p>Iremos en orden: primero los estados. Para simular, solo tomaremos en cuenta lo que
+el agente vería en un juego de verdad: sus cartas, las cartas destapadas del
+repartidor, y si ya terminó la partida. Así, un estado lo podemos describir como</p>
+
+<p>\[ (N_j, S_j, S_r, t) \]</p>
+
+<p>Donde $N_j$ es la cantidad de cartas del agente, $S_j$ y $S_r$ son la suma de las
+cartas del agente y del repartidor respectivamente, y $t$ es un entero que indica
+si es un estado terminal o no.</p>
+
+<p>La función de acciones legales simplemente revisa si $t$ es 0 o 1. Si es 0,
+regresa las únicas dos acciones que existen para este 21: <em>pedir</em> y <em>quedarse</em>.
+Cuando $t$ es 1, regresa <em>nothing</em>, que es la palabra reservada para la nada en
+Julia.</p>
+
+<p>Otra parte sencilla es la función de recompensas. Esta te regresa 0 para cualquier
+estado no terminal y, 1 o -1 para estados terminales dependiendo de si el agente
+ganó o perdió.</p>
+
+<p>Por último, debemos definir como se darán las transiciones entre estados. Si el
+agente decide pedir cartas, se le suma una carta aleatoria. Si decide quedarse,
+se le suma una carta al repartidor. Bastante sencillo, la verdad. El código de
+esta función no es elegante, pero si <em>verbatim</em> a lo que acabo de decir.</p>
+
+<h2 id="resultados">Resultados</h2>
+
+<p>Después de usar el modelo descrito en la sección anterior junto con una política
+$ \epsilon $-greedy y SARSA, salió una política que al menos tiene sentido. Cuando
+no está muy cerca de 21, pide cartas, y cuando está peligrosamente cerca de pasarse,
+decide mejor quedarse. Vaya, hasta parece que el método funciona si le das algo
+útil de entrada.</p>
+
+<p>Pero aquí no acaba la experimentación. Pronto escribiré sobre los resultados de
+entrenar un agente con Q-learning y tile coding para resolver el problema del
+<a href="https://gym.openai.com/envs/Acrobot-v1/">acrobot</a>. ¡Y también usando la librería <strong>Gym</strong> de OpenAI! Pero en Python, porque
+hay problemas en Julia, que serán tema para la siguiente publicación.</p>
+
+<p>Por último, si estabas pensando que solo andaba diciendo cosas al aire, te tengo
+buenas noticias: todo el código descrito aquí está implementado en <a href="https://nbviewer.jupyter.org/github/rexemin/Topicos-IA-UNISON/blob/master/AprendizajeRefuerzo/21-AprendizajePorRefuerzo.ipynb">esta libreta de Jupyter</a>.
+Solo no le veo mucho punto a repetir el código en ambas partes. Además de que así
+puedes disfrutar de lo bonito y útil que es el nbviewer.</p>
+</div>
+	</article>
+</div>
+<!-- Footer -->
+<div id="footer">
+
+  <!-- Copyright -->
+  <ul class="copyright">
+    
+      <li>Mantenido por: Ivan Moreno</li>
+    
+    <li>Diseño: <a href="http://html5up.net">HTML5 UP</a></li>
+    <li>Integración con Jekyll: <a href="https://chrisbobbe.github.io/">Chris Bobbe</a></li>
+  </ul>
+
+</div>
+</body>
+</html>
