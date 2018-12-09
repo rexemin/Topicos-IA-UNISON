@@ -1,0 +1,166 @@
+<!DOCTYPE HTML>
+<!--
+Prologue by HTML5 UP
+html5up.net | @ajlkn
+Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+Jekyll integration by Chris Bobbe | chrisbobbe.github.io
+-->
+<html><head><!-- Robots -->
+  <meta name="robots" content="index, follow" /><link rel="canonical" href="http://localhost:4000/Topicos-IA-UNISON/2018/12/09/acrobot.html" /><!-- Title, description, author --><title>Aprendizaje por refuerzo - Parte 3 - Acrobot | Tópicos Avanzados de Inteligencia Artificial</title>
+  <meta name="description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  <meta name="author" content="Ivan Moreno" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="Aprendizaje por refuerzo - Parte 3 - Acrobot | Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="http://localhost:4000/Topicos-IA-UNISON/assets/images/avatar.jpg" />
+  <meta property="og:url" content="http://localhost:4000/Topicos-IA-UNISON/2018/12/09/acrobot.html" />
+  <meta property="og:site_name" content="Tópicos Avanzados de Inteligencia Artificial" />
+  <meta property="og:description" content="Blog para el curso de Tópicos Avanzados de Inteligencia Artificial de la Lic. en Ciencias de la Computación de la Universidad de Sonora." />
+  
+  <!-- Styles -->
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/html5shiv.js" defer></script><![endif]-->
+  <link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/main.css" />
+  <!--[if lte IE 8]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie8.css" /><![endif]-->
+  <!--[if lte IE 9]><link rel="stylesheet" href="/Topicos-IA-UNISON/assets/css/ie9.css" /><![endif]-->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css">
+
+  <!-- Scripts -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrolly.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/jquery.scrollzer.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/skel.min.js" defer></script>
+  <script src="/Topicos-IA-UNISON/assets/js/util.js" defer></script>
+  <!--[if lte IE 8]><script src="/Topicos-IA-UNISON/assets/js/ie/respond.min.js" defer></script><![endif]-->
+  <script src="/Topicos-IA-UNISON/assets/js/main.js" defer></script>
+
+</head><body><!-- Header -->
+<div id="header">
+  <div class="top"><!-- Logo -->
+<div id="logo">
+  <a href="http://localhost:4000/Topicos-IA-UNISON/" id="home-link">
+    <span class="image avatar48"><img src="/Topicos-IA-UNISON/assets/images/avatar.jpg" alt="Avatar of Ivan Moreno" /></span>
+    <h1 id="title">Tópicos Avanzados de Inteligencia Artificial</h1>
+    <p></p>
+  </a>
+</div><!-- Nav -->
+<nav id="nav">
+  <ul><li><a href="http://localhost:4000/Topicos-IA-UNISON/" id="inicio-link">
+            <span class="icon fa-home">Inicio</span>
+          </a></li><li><a href="http://localhost:4000/Topicos-IA-UNISON/blog.html" id="blog-del-curso-link">
+            <span class="icon fa-pencil-alt">Blog del curso</span>
+          </a></li></ul>
+</nav></div>
+  <div class="bottom"><!-- Social Icons -->
+<ul class="icons"><li><a href="https://github.com/rexemin/Topicos-IA-UNISON" class="icon-b fa-github"><span class="label">GitHub</span></a></li><li><a href="mailto:iamorenosoto@gmail.com" class="icon fa-envelope"><span class="label">Email</span></a></li></ul>
+</div>
+</div>
+<!-- Main -->
+<div id="main">
+	<!-- Post -->
+	<article class="shade-two">
+	  <div class="container">
+			<header>
+        
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+    inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+    processEscapes: true
+    }
+    });
+    </script>
+    <script
+        type="text/javascript"
+        charset="utf-8"
+        src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"
+        >
+        </script>
+        <script
+            type="text/javascript"
+            charset="utf-8"
+            src="https://vincenttam.github.io/javascripts/MathJaxLocal.js"
+            >
+            </script>
+
+
+				<h2>Aprendizaje por refuerzo - Parte 3 - Acrobot</h2>
+				<p>Ivan Moreno, 09 December 2018</p>
+			</header><p>Hice que mi computadora aprendiera a controlar un acrobot para la última parte de
+la unidad. Solo hacía falta usar un método, pero me emocioné y usé tres. Cada uno
+con sus resultados.</p>
+
+<p>Antes de pasar a todos los detalles sobre el acrobot, hay que hablar sobre el estado
+de Julia. Para este ejercicio preferí usar Python 3, donde existe un único Gym y un
+único Keras. En Julia, hay al menos 3 wrappers distintos para cada librería
+exclusiva de Python. No todos están registrados como paquetes oficiales, y todavía
+peor, no todos funcionan. Después de intentar usar dos wrappers para Gym sin éxito, mejor moví todo a Python, donde funcionó en cinco minutos con todos los requisitos que tenía.</p>
+
+<p>Después de ponernos en la misma página respecto al lenguaje, es hora de ver como
+usar Gym para entrenar una computadora. Aunque mi implemenntación no es la mejor
+manera. No soy un experto.</p>
+
+<p>Todos los scripts que usé están en
+<a href="https://github.com/rexemin/Topicos-IA-UNISON">este repositorio</a>.</p>
+
+<h2 id="acrobot">Acrobot</h2>
+
+<p>El acrobot es un pequeño juguete con dos brazos y un torque en la conexión de estos.
+La idea es maniobrar el torque para que el brazo inferior alcance una cierta altura,
+como en la animación de abajo.</p>
+
+<p><img src="/Topicos-IA-UNISON/img/ejemploacrobot.gif" alt="Acrobot logrando su objetivo" /></p>
+
+<p>Para poder simular al acrobot, hace falta programar unas ecuaciones diferenciales,
+pero afortunadamente, la librería Gym de OpenAI ya lo tiene cubierto. Hasta permite
+grabar videos del comportamiento de los agentes.</p>
+
+<p>Si tenemos una mitad hecha, falta hacer la otra mitad. Para esto, volvemos a unas
+ideas anteriores:</p>
+<ul>
+  <li>Políticas $ \epsilon $-greedy</li>
+  <li>Discretizar el espacio de estados</li>
+</ul>
+
+<p>Aunque la última vez dije que usaría tile-coding para entrenar, al final no lo
+implementé, y mejor discreticé sencillamente el espacio de estados. Creé intervalos
+del -1 al 1 donde todos los números que estuvieran en medio caerían en los mismos
+lugares. Así, reduje el espacio de estados de una infinidad a la 6, a alrededor de
+50000, 18000, y 12000. Que siguen siendo bastantes.</p>
+
+<h2 id="acrobot-con-q-learning">Acrobot con Q-Learning</h2>
+
+<p>Para empezar, probé con algo muy sencillo: Q-Learning. En pocas líneas de código
+queda el algoritmo junto con la discretización del estado. Al principio fueron
+tantas entradas en el diccionario de valores-acción que se acabó la memoria
+asignada a Python y el programa abortó. Así que 50000 estados sigue siendo
+impensable. Luego de aumentar los intervalos, logré reducir la cardinalidad a
+alrededor de 18000 estados. Lo que solucionó el problema anterior.</p>
+
+<p>AGREGAR RESULTADOS Y DISCUSIÓN.</p>
+
+<h2 id="acrobot-con-doble-q-learning">Acrobot con doble Q-Learning</h2>
+
+<h2 id="acrobot-con-deep-q-learning">Acrobot con Deep Q-Learning</h2>
+
+<h2 id="lecciones">Lecciones</h2>
+</div>
+	</article>
+</div>
+<!-- Footer -->
+<div id="footer">
+
+  <!-- Copyright -->
+  <ul class="copyright">
+    
+      <li>Mantenido por: Ivan Moreno</li>
+    
+    <li>Diseño: <a href="http://html5up.net">HTML5 UP</a></li>
+    <li>Integración con Jekyll: <a href="https://chrisbobbe.github.io/">Chris Bobbe</a></li>
+  </ul>
+
+</div>
+</body>
+</html>
