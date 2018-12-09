@@ -111,7 +111,7 @@ manera. No soy un experto.</p>
 La idea es maniobrar el torque para que el brazo inferior alcance una cierta altura,
 como en la animación de abajo.</p>
 
-<p><img src="/Topicos-IA-UNISON/img/ejemploacrobot.gif" alt="Acrobot logrando su objetivo" /></p>
+<p><img src="https://media.giphy.com/media/31ZpKAU38rD8gTJzgz/giphy.gif" alt="Acrobot logrando su objetivo" /></p>
 
 <p>Para poder simular al acrobot, hace falta programar unas ecuaciones diferenciales,
 pero afortunadamente, la librería Gym de OpenAI ya lo tiene cubierto. Hasta permite
@@ -130,6 +130,11 @@ del -1 al 1 donde todos los números que estuvieran en medio caerían en los mis
 lugares. Así, reduje el espacio de estados de una infinidad a la 6, a alrededor de
 50000, 18000, y 12000. Que siguen siendo bastantes.</p>
 
+<p>La mayor parte de las animaciones solo son pedazos del episodio completo, debido
+a los límites del convertidor de mp4 a gif. El acrobot tiene 500 pasos para
+completar su tarea. A menos que mencione que el acrobot tuvo éxito, las animaciones
+que puedes ver son de 10 a 20 de 32 segundos de desesperación.</p>
+
 <h2 id="acrobot-con-q-learning">Acrobot con Q-Learning</h2>
 
 <p>Para empezar, probé con algo muy sencillo: Q-Learning. En pocas líneas de código
@@ -139,13 +144,137 @@ asignada a Python y el programa abortó. Así que 50000 estados sigue siendo
 impensable. Luego de aumentar los intervalos, logré reducir la cardinalidad a
 alrededor de 18000 estados. Lo que solucionó el problema anterior.</p>
 
-<p>AGREGAR RESULTADOS Y DISCUSIÓN.</p>
+<p>Después de 30000 episodios de entrenamiento, el agente logra terminar la tarea a
+tiempo seguido, pero no siempre. El tiempo que se toma es variable. Para que veas,
+fíjate en la siguiente animación del primer episodio.</p>
+
+<p><img src="https://media.giphy.com/media/1k3UtnMFxX3dagwLyx/giphy.gif" alt="Q-Learning en el episodio 1" /></p>
+
+<p>Muchas veces, el acrobot solo se balancea de un lado a otro, sin realmente
+acercarse a la línea de arriba. Sin embargo, otra veces sucede algo como lo que pasó
+en el episodio 29000:</p>
+
+<p><img src="https://media.giphy.com/media/37q5g8Gg6YJY0XpZj9/giphy.gif" alt="Q-Learning en el episodio 29000" /></p>
+
+<p>El acrobot hace el <em>helicóptero</em>, logra impulsarse, y alcanza la meta.</p>
+
+<p>Aunque el agente no aprendió a resolver el problema consistentemente, si aprendió
+a que necesita conseguir impulso rápidamente. Esto se puede deber a los parámetros
+que usé, así como a la discretización del espacio que programé. Si quieres correr
+a este amigo, el código está en el módulo <code class="highlighter-rouge">acrobot_qlearning.py</code>. Los parámetros
+que usé fueron los siguientes:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>episode_count = 30000
+step_size = 0.3
+discount = 0.9
+epsilon = 0.1
+interval_range = 0.75
+</code></pre></div></div>
 
 <h2 id="acrobot-con-doble-q-learning">Acrobot con doble Q-Learning</h2>
 
-<h2 id="acrobot-con-deep-q-learning">Acrobot con Deep Q-Learning</h2>
+<p>Si te gustó el Q-Learning, ¿qué tal si metemos dos <strong>Q</strong>? Y eso es doble Q-Learning.
+Simplemente usa dos funciones de acción-valor que se van actualizando de manera
+dependiente. El algoritmo que viene en el <a href="https://papers.nips.cc/paper/3964-double-q-learning.pdf">artículo original</a> es este:</p>
 
-<h2 id="lecciones">Lecciones</h2>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Construir Q_A, Q_B, s
+Repetir
+    Escoger a basado en Q_A(s, *) + Q_B(s, *), observar r, s'
+    Escoger aleatoriamente si se actualiza Q_A o Q_B
+    Si se actualiza Q_A entonces
+        Definir a* = arg max_a Q_A(s', a)
+        Q_A(s, a) = Q_A(s, a) + alpha(r + gamma Q_B(s', a*) - Q_A(s, a))
+    En caso contrario
+        Definir a* = arg max_a Q_B(s', a)
+        Q_B(s, a) = Q_B(s, a) + alpha(r + gamma Q_A(s', a*) - Q_B(s, a))
+    Fin si
+    s = s'
+Hasta final
+</code></pre></div></div>
+
+<p>Es decir: tienes dos estimadores, los usas en conjunto para elegir una acción, y
+luego actualizas cualquiera de los dos usando el valor del otro. Según el autor,
+esto ayuda a evitar sobreestimaciones del valor real de la función acción-valor.
+Una cosa solamente: está pensado para usarse con entornos estocásticos. Hay que
+tener eso en cuenta.</p>
+
+<p>El código es muy parecido al del módulo anterior, solo tuve que cambiar alrededor
+de 6 líneas de código. Las parámetros que usé fueron:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>episode_count = 41001
+step_size = 0.3
+discount = 0.9
+epsilon = 0.1
+interval_range = 1.0
+</code></pre></div></div>
+
+<p>Al principio obtuve esto:</p>
+
+<p><img src="https://media.giphy.com/media/fxw52tbbTzCsyfBJl0/giphy.gif" alt="Doble QL en el episodio 1" /></p>
+
+<p>Después de 29000 episodios podemos ver como este agente también aprende a hacer el
+<em>helicóptero</em>.</p>
+
+<p><img src="https://media.giphy.com/media/69B2UaiiWmdhHKII36/giphy.gif" alt="Doble QL haciendo el helicóptero" /></p>
+
+<p>A los 38000 podemos ver que si llega a la línea. Como en el caso anterior, el
+agente resuelve el problema seguido, pero no siempre. Esto lo podemos ver con el
+resultado en el episodio 41000.</p>
+
+<p><img src="https://media.giphy.com/media/NPFPmsBkpA110wSCx4/giphy.gif" alt="Episodio 38000 del doble QL" /></p>
+
+<p><img src="https://media.giphy.com/media/5k24PsE4x3fZ7ZY15H/giphy.gif" alt="Último episodio del doble QL" /></p>
+
+<p>Si quieres ejecutar este caso, el script que buscas es <code class="highlighter-rouge">acrobot_doubleqlearning.py</code>. Aquí también sería bueno cambiar los parámetros para
+ver si aprende mejor.</p>
+
+<h2 id="acrobot-con-deep-q-learning">Acrobot con Deep Q-Learning</h2>
+<p>Por último, veamos que sale si usamos redes neuronales profundas, por que está de
+moda. Y porque entonces no ocupamos preocuparnos por la discretización del espacio.
+A diferencia de los otros algoritmos que fueron entrenados con miles y miles de
+episodios, este agente solo fue entrenado con 600. No tengo una supercomputadora en
+mi casa.</p>
+
+<p>La idea del Deep Q-Learning es usar una red neuronal profunda para aproximar la
+función de acción-valor, en vez de utilizar una tabla o un diccionario. Además,
+se ajusta la predicción en cada iteración a través de la repetición de iteraciones
+pasadas. Para más detalles puedes leer el <a href="https://arxiv.org/pdf/1312.5602.pdf">artículo original</a>.</p>
+
+<p>En pocas palabras, este algoritmo es muy bueno, muy lento, y muy sencillo, si usas
+Keras para enmascarar todo el código para crear una red neuronal. Siguiendo la
+nomenclatura, el código que obtuvo los siguientes resultados está en el módulo
+<code class="highlighter-rouge">acrobot_deepqlearning.py</code>.</p>
+
+<p>Los parámetros que usé durante los primeros 200 episodios fueron estos:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.gamma = 0.9
+self.epsilon = 0.1
+self.learning_rate = 0.05
+</code></pre></div></div>
+
+<p>Para los otros 400 episodios fueron estos:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>self.gamma = 0.9
+self.epsilon = 0.15
+self.learning_rate = 0.08
+</code></pre></div></div>
+
+<p>Si sabes de redes neuronales probablemente quieres decirme lo horriblemente mal que
+implementé el algoritmo. Si es así, por favor mándame un correo para arreglar el
+código, seguro queda un agente superhumano.</p>
+
+<p>En el inicio, el agente se comporta como los otro métodos.</p>
+
+<p><img src="https://media.giphy.com/media/1BGQtcXt4yf4Z6yK0x/giphy.gif" alt="DQL en el episodio 1" /></p>
+
+<p>Durante el entrenamiento a veces ganaba, aunque tampoco fue muy constante. A este
+se lo nota que le falta mucho más entrenamiento, aunque lo haya puesto por 6 horas
+reales. Al menos parece que aprendió a impulsarse mejor.</p>
+
+<p><img src="https://media.giphy.com/media/8P1HpetXu6GEOx9jQ5/giphy.gif" alt="DQL en el último episodio" /></p>
+
+<p>Lo bueno de toda esta experimentación es que muestra lo fácil y rápido que es
+implementar un algoritmo distinto de aprendizaje por refuerzo. Si tienes el
+entorno programado para funcionar tan transparentemente como en Gym, todo es
+más fácil.</p>
 </div>
 	</article>
 </div>
